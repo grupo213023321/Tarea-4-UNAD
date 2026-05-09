@@ -1,9 +1,11 @@
 ##########################################################
 #
-# --- Archivo Classes.py ---
+# --- Archivo classes.py ---
 #
-# - Ultima actualización: 2023-06-30
+# - Ultima actualización: 08 - 5 - 2026
 # - Aporte: Daniel Serrano Rivera
+#
+# Descripción: Contiene las clases, 
 #
 ##########################################################
 
