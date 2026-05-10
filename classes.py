@@ -413,43 +413,47 @@ class AsesoriaEspecializada(Servicio):
 ######################################
 # CLASE RESERVA
 ######################################
+#Clase reserva modificada 9/05/2026 
+#Ronald Molina
+######################################
+# CLASE RESERVA
+######################################
 
 class Reserva:
     """
-    Clase que gestiona la unión entre un Cliente y un Servicio.
-    Implementa validaciones de fecha y control de duplicados.
+    Gestiona el ciclo de vida de una reserva.
+    Implementa validaciones de fecha, duración, confirmación, cancelación y procesamiento.
     """
     
-    # Lista estática para simular la persistencia en memoria y validar disponibilidad
+    # Lista estática para persistencia en memoria (NO BORRAR)
     todas_las_reservas: List['Reserva'] = []
 
     def __init__(self, id_reserva: int, cliente: Cliente, servicio: Servicio, 
-                 fecha_hora: datetime, notas: str = ""):
+                 fecha_hora: datetime, duracion: float, notas: str = ""):
         self._id = id_reserva
         self.__cliente = cliente
         self.__servicio = servicio
         self.__fecha_hora = fecha_hora
+        self.__duracion = duracion  # NUEVO: Duración en horas
         self.__notas = notas
-        self.__estado = "pendiente"  # Estados: pendiente, confirmada, cancelada, completada
+        self.__estado = "pendiente" 
         self._fecha_creacion = datetime.now()
 
-        # Al instanciar, validamos si el horario está ocupado
+        # Validar disponibilidad al crear
         self._validar_disponibilidad(fecha_hora, servicio)
 
     def _validar_disponibilidad(self, fecha_evaluar: datetime, servicio_evaluar: Servicio):
-        """
-        Verifica si ya existe una reserva activa para el mismo servicio y hora.
-        """
+        """Verifica si el servicio ya está reservado en ese horario."""
         for r in Reserva.todas_las_reservas:
-            if r.estado != "cancelada":
-                # Validamos si es el mismo servicio a la misma hora
-                if r.servicio.nombre == servicio_evaluar.nombre and r.fecha_hora == fecha_evaluar:
-                    raise ErrorReserva(
-                        "Disponibilidad", 
-                        f"El servicio '{servicio_evaluar.nombre}' ya tiene una reserva para {fecha_evaluar}."
-                    )
+            if r.estado != "cancelada" and r.estado != "completada":
+                if r.servicio.nombre == servicio_evaluar.nombre:
+                    # Validación de solapamiento
+                    fin_reserva_existente = r.fecha_hora + timedelta(hours=r.duracion)
+                    if fecha_evaluar < fin_reserva_existente:
+                        raise ErrorReserva("Disponibilidad", 
+                                           f"El servicio '{servicio_evaluar.nombre}' está ocupado en ese horario.")
 
-    # --- Getters y Setters ---
+    # --- Getters ---
     @property
     def id(self): return self._id
 
@@ -464,64 +468,59 @@ class Reserva:
 
     @property
     def estado(self): return self.__estado
+    
+    @property
+    def duracion(self): return self.__duracion
 
-    @estado.setter
-    def estado(self, nuevo_estado: str):
-        estados_validos = ["pendiente", "confirmada", "cancelada", "completada"]
-        if nuevo_estado.lower() in estados_validos:
-            self.__estado = nuevo_estado.lower()
-        else:
-            raise ValueError(f"Estado '{nuevo_estado}' no es válido.")
+    # --- Gestores de Estado (Obligatorios por la guía) ---
 
-    # --- Métodos de Gestión ---
+    def confirmar(self):
+        """Cambia el estado a confirmada."""
+        if self.__estado != "pendiente":
+            raise ErrorReserva("Estado", "Solo se pueden confirmar reservas pendientes.")
+        self.__estado = "confirmada"
+
+    def cancelar(self):
+        """Cancela la reserva."""
+        if self.__estado == "completada":
+            raise ErrorReserva("Cancelación", "No se puede cancelar una reserva ya procesada/completada.")
+        self.__estado = "cancelada"
+
+    def procesar(self) -> float:
+        """Ejecuta la reserva (calcula costo) y la marca como completada."""
+        if self.__estado != "confirmada":
+            raise ErrorReserva("Procesamiento", "La reserva debe estar confirmada antes de procesarse.")
+        
+        try:
+            # Cálculo del costo usando el servicio
+            costo = self.__servicio.calcular_costo()
+        except ErrorCalculoFinanciero as e:
+            raise ErrorReserva("Financiero", f"Error al procesar costo: {e}")
+        
+        self.__estado = "completada"
+        return costo
+
+    # --- Métodos auxiliares ---
+
     @classmethod
     def crear_reserva(cls, id_reserva: int, cliente: Cliente, servicio: Servicio, 
-                      fecha_str: str, hora_str: str, notas: str = "") -> 'Reserva':
+                      fecha_str: str, hora_str: str, duracion: float, notas: str = "") -> 'Reserva':
         """
-        Método de fábrica para crear reservas validando el formato de fecha.
+        Método de fábrica. Convierte strings de fecha a datetime y crea la instancia.
         """
         try:
             fecha_dt = datetime.strptime(f"{fecha_str} {hora_str}", "%Y-%m-%d %H:%M")
             
-            # Validación: No permitir fechas pasadas
             if fecha_dt < datetime.now():
-                raise ErrorReserva("Fecha", "No se pueden crear reservas en fechas pasadas.")
-                
-            nueva_reserva = cls(id_reserva, cliente, servicio, fecha_dt, notas)
+                raise ErrorReserva("Fecha", "La fecha no puede estar en el pasado.")
+            
+            nueva_reserva = cls(id_reserva, cliente, servicio, fecha_dt, duracion, notas)
             cls.todas_las_reservas.append(nueva_reserva)
             return nueva_reserva
         except ValueError:
-            raise ErrorReserva("Formato", "El formato de fecha (AAAA-MM-DD) o hora (HH:MM) es incorrecto.")
-
-    def modificar_reserva(self, nueva_fecha_hora: Optional[datetime] = None, nuevas_notas: Optional[str] = None):
-        """
-        Permite editar la reserva verificando nuevamente la disponibilidad si cambia la fecha.
-        """
-        if self.__estado == "completada":
-            raise ErrorReserva("Edición", "No se puede modificar una reserva ya completada.")
-
-        if nueva_fecha_hora:
-            # Validar que no choque con otras (excluyéndose a sí misma)
-            for r in Reserva.todas_las_reservas:
-                if r != self and r.estado != "cancelada" and r.fecha_hora == nueva_fecha_hora:
-                    raise ErrorReserva("Conflicto", "La nueva fecha/hora ya está ocupada.")
-            self.__fecha_hora = nueva_fecha_hora
-        
-        if nuevas_notas is not None:
-            self.__notas = nuevas_notas
-
-    @classmethod
-    def eliminar_reserva(cls, id_reserva: int):
-        """
-        Elimina físicamente la reserva de la lista global.
-        """
-        cls.todas_las_reservas = [r for r in cls.todas_las_reservas if r.id != id_reserva]
-
-    def cancelar(self):
-        """Cambio de estado lógico a cancelada."""
-        self.__estado = "cancelada"
+            raise ErrorReserva("Formato", "Formato de fecha/hora incorrecto.")
 
     def __str__(self) -> str:
         return (f"Reserva #{self._id} | {self.__cliente.nombre} | "
-                f"{self.__servicio.nombre} | {self.__fecha_hora.strftime('%d/%m/%Y %H:%M')} | "
-                f"Estado: {self.__estado}")
+                f"{self.__servicio.nombre} | {self.__fecha_hora.strftime('%d/%m %H:%M')} | "
+                f"Estado: {self.__estado} | Duración: {self.__duracion}h")
