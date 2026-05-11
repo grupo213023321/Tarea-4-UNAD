@@ -2,18 +2,20 @@
 #
 # --- Archivo classes.py ---
 #
-# - Ultima actualización: 09 - 5 - 2026
-# - Aporte: Daniel Serrano Rivera / Ronald Molina /Camila Meneses
+# - Ultima actualización: 11 - 5 - 2026
+# - Aporte: Daniel Serrano Rivera / Ronald Molina /Camila Meneses / Yuliana Morcillo Chatez
 #
 # Descripción: Contiene las clases base, excepciones,
 #              servicios y reservas del sistema FJ.
 #
 ##########################################################
 
+from validadores import ValidadorDatos
 from abc import ABC, abstractmethod
 from datetime import datetime, timedelta   # ← timedelta agregado (faltaba)
 from typing import List, Optional
 import re
+
 
 ######################################
 # CLASES DE EXCEPCIONES PERSONALIZADAS
@@ -71,6 +73,11 @@ class Cliente(Entidad):
 
     def __init__(self, id_sistema, id_cliente, nombre, direccion, correo, telefono):
         super().__init__(id_sistema)
+        
+        # Se aplican reglas de integridad mediante expresiones regulares (Regex)
+        ValidadorDatos.validar_nombre(nombre)
+        ValidadorDatos.validar_correo(correo)
+        ValidadorDatos.validar_telefono(telefono)
 
         # Atributos privados
         self.__id_cliente = None
