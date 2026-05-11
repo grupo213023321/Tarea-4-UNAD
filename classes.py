@@ -153,7 +153,7 @@ class Cliente(Entidad):
             raise ErrorDatosCliente("correo", "El correo electrónico es obligatorio.")
         patron = r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$'
         if not re.match(patron, correo):
-            raise ErrorDatosCliente("correo", f"El formato de correo '{correo}' es inválido.")
+            raise ErrorDatosCliente("correo", f"El formato de correo '{correo}' no es válido.")
 
     def __validar_formato_telefono(self, telefono):
         if not telefono:
@@ -284,7 +284,7 @@ class ReservaSala(Servicio):
     @capacidad.setter
     def capacidad(self, valor):
         if not isinstance(valor, int) or valor <= 0:
-            raise ErrorDisponibilidadServicio("La capacidad de la sala debe ser un entero positivo.")
+            raise ErrorDisponibilidadServicio("Se requiere que la capacidad de la sala sea un número entero positivo.")
         self.__capacidad = valor
 
     @property
