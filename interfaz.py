@@ -229,7 +229,23 @@ class AplicacionGUI:
             messagebox.showinfo("Éxito", "Cliente eliminado.")
 
     # ==================== GESTIÓN DE SERVICIOS ====================
+    #####################
+    # MÉTODOS LIMPIADORES
+    #####################
+    def _limpiar_sala(self):
+        for e in self.entries_sala.values(): e.delete(0, tk.END)
+        self.entries_sala["nombre"].focus()
 
+    def _limpiar_equipo(self):
+        for e in self.entries_equipo.values(): e.delete(0, tk.END)
+        self.chk_seguro.set(False)
+        self.entries_equipo["nombre"].focus()
+
+    def _limpiar_asesoria(self):
+        for e in self.entries_asesoria.values(): e.delete(0, tk.END)
+        self.combo_nivel.current(0)
+        self.entries_asesoria["nombre"].focus()
+        
     def mostrar_frame_servicios(self):
         self.limpiar_frames()
         self.frame_servicios.pack(fill=tk.BOTH, expand=True, padx=10, pady=10)
@@ -321,6 +337,12 @@ class AplicacionGUI:
             horas     = float(self.entries_sala["horas"].get())
             svc = ReservaSala(str(uuid.uuid4()), nombre, precio, capacidad, horas)
             self.servicios.append(svc)
+            
+            #####################
+            #LLAMADA AL LIMPIADOR
+            #####################
+            self._limpiar_sala()
+            
             registrar_evento(f"GUI: Sala creada: {svc.mostrar_info()}")
             messagebox.showinfo("Éxito", "Sala creada correctamente.")
             self.actualizar_lista_servicios()
@@ -336,6 +358,12 @@ class AplicacionGUI:
             seguro = self.chk_seguro.get()
             svc = AlquilerEquipo(str(uuid.uuid4()), nombre, precio, dias, seguro)
             self.servicios.append(svc)
+            
+            #####################
+            #LLAMADA AL LIMPIADOR
+            #####################
+            self._limpiar_equipo()
+
             registrar_evento(f"GUI: Equipo creado: {svc.mostrar_info()}")
             messagebox.showinfo("Éxito", "Equipo creado correctamente.")
             self.actualizar_lista_servicios()
@@ -351,6 +379,12 @@ class AplicacionGUI:
             nivel     = self.combo_nivel.get()
             svc = AsesoriaEspecializada(str(uuid.uuid4()), nombre, precio, consultor, nivel)
             self.servicios.append(svc)
+            
+            ######################
+            #LLAMADA AL LIMPIADOR
+            ######################
+            self._limpiar_asesoria()
+
             registrar_evento(f"GUI: Asesoría creada: {svc.mostrar_info()}")
             messagebox.showinfo("Éxito", "Asesoría creada correctamente.")
             self.actualizar_lista_servicios()
