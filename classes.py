@@ -527,3 +527,4 @@ class Reserva:
         return (f"Reserva #{self._id} | {self.__cliente.nombre} | "
                 f"{self.__servicio.nombre} | {self.__fecha_hora.strftime('%d/%m/%Y %H:%M')} | "
                 f"Estado: {self.__estado} | Duración: {self.__duracion}h")
+        
