@@ -2,163 +2,297 @@
 #
 # --- Archivo main.py ---
 #
-# - Ultima actualización: 08 - 5 - 2026
+# - Ultima actualización: 09 - 5 - 2026
 # - Aporte: Daniel Serrano Rivera
 #
-# Descripción: Contiene la lógica principal llamando a las clases y funciones de los demas archivos 
+# Descripción: Punto de entrada del sistema.
+#              Integra la lógica principal, el menú de
+#              consola y la simulación automática de
+#              operaciones requeridas por la guía.
 #
 ##########################################################
 
-
-######################################
-# IMPORTACIONES
-######################################
-
 import sys
-from datetime import datetime
 import uuid
+from datetime import datetime, timedelta
 
-# Importación de módulos
-# Asegurarse de que classes.py y log.py estén en la misma carpeta
 from classes import (
     Cliente, ReservaSala, AlquilerEquipo, AsesoriaEspecializada,
     Reserva, ErrorDatosCliente, ErrorDisponibilidadServicio,
     ErrorCalculoFinanciero, ErrorReserva
 )
-
-
-#Se importa el script log una vez este creado   --- A IMPLEMENTAR --- 
-"""from log import registrar_evento, registrar_excepcion, registrar_inicio_sesion, registrar_cierre_sesion"""
-
+from log import (
+    registrar_evento, registrar_excepcion,
+    registrar_inicio_sesion, registrar_cierre_sesion,
+    leer_log
+)
+from servicios import simular_10_operaciones
 
 ######################################
-# CLASE PROGRAMA
+# CLASE PROGRAMA (MENÚ DE CONSOLA)
 ######################################
 
 class Programa:
-    
+    """Controlador principal del sistema Software FJ en modo consola."""
+
     def __init__(self):
-        #Inicializamos las listas donde se alojaran los clientes, servicios y reservas, funciona como base de datos temporal
-        
         self.clientes = []
         self.servicios = []
         self.reservas = []
 
-# SE IMPLEMENTA EL PROGRAMA EN LA TERMINAL PARA PRUEBAS 
-# A IMPLEMENTAR HUD CON TKINTER
+    # ── Menú ──────────────────────────────────────────────
 
-    def mostrar_menu(self):
-        print(f"\n{'='*20} SOFTWARE FJ - GESTIÓN {'='*20}\n")
-        print("1. Registrar Cliente")
-        #print("2. Crear Servicio (Sala/Equipo/Asesoría)")
-        #print("3. Crear Reserva")
-        #print("4. Listar Reservas y Calcular Costos")
-        #print("5. Salir")
-        print("---test--- Consultar Lista clientes")
-        return input("Seleccione una opción: ")
+    def mostrar_menu(self) -> str:
+        print(f"\n{'='*22} SOFTWARE FJ {'='*22}")
+        print("  1. Registrar Cliente")
+        print("  2. Crear Servicio (Sala / Equipo / Asesoría)")
+        print("  3. Crear Reserva")
+        print("  4. Listar Reservas y Calcular Costos")
+        print("  5. Mostrar Clientes")
+        print("  6. Mostrar últimas líneas del Log")
+        print("  7. Simular 10 operaciones automáticas")
+        print("  8. Salir")
+        print(f"{'='*57}")
+        return input("  Seleccione una opción: ").strip()
+
+    # ── Registro de Cliente ───────────────────────────────
 
     def ejecutar_registro_cliente(self):
+        print("\n--- Registro de Cliente ---")
         try:
-            print("\n--- Registro de Cliente ---")
-
             id_sistema = str(uuid.uuid4())
-
-            id_c      = input("ID Cliente:  ").strip()
-            nombre    = input("Nombre:      ").strip()
-            direccion = input("Dirección:   ").strip()
-            correo    = input("Correo:      ").strip()
-            telefono  = input("Teléfono:    ").strip()
+            id_c      = input("  ID Cliente:  ").strip()
+            nombre    = input("  Nombre:      ").strip()
+            direccion = input("  Dirección:   ").strip()
+            correo    = input("  Correo:      ").strip()
+            telefono  = input("  Teléfono:    ").strip()
 
             nuevo_cliente = Cliente(id_sistema, id_c, nombre, direccion, correo, telefono)
 
+        except ErrorDatosCliente as e:
+            registrar_excepcion(e, "Registro de Cliente")
+            print(f"  ✗ Dato inválido: {e}")
+        except Exception as e:
+            registrar_excepcion(e, "Registro de Cliente (inesperado)")
+            print(f"  ✗ Error inesperado: {e}")
+        else:
             self.clientes.append(nuevo_cliente)
+            registrar_evento(f"Cliente registrado: {nuevo_cliente}")
+            print(f"  ✓ Cliente registrado: {nuevo_cliente}")
+        finally:
+            print("  (Operación de registro finalizada)")
 
-            print(f"\n✅ Cliente registrado exitosamente: {nuevo_cliente}")
+    # ── Creación de Servicios ─────────────────────────────
 
-        except:
-            pass #IMPLEMENTAR EXCEPCION, PARA ERRORES
+    def ejecutar_crear_servicio(self):
+        print("\n--- Crear Servicio ---")
+        print("  a) Sala de reuniones")
+        print("  b) Alquiler de equipo")
+        print("  c) Asesoría especializada")
+        tipo = input("  Tipo (a/b/c): ").strip().lower()
+
+        try:
+            nombre    = input("  Nombre del servicio: ").strip()
+            precio    = float(input("  Precio base ($): ").strip())
+            id_svc    = str(uuid.uuid4())
+
+            if tipo == "a":
+                capacidad = int(input("  Capacidad (personas): ").strip())
+                horas     = float(input("  Horas reservadas: ").strip())
+                svc = ReservaSala(id_svc, nombre, precio, capacidad, horas)
+
+            elif tipo == "b":
+                dias   = int(input("  Días de alquiler: ").strip())
+                seguro = input("  ¿Incluye seguro? (s/n): ").strip().lower() == "s"
+                svc = AlquilerEquipo(id_svc, nombre, precio, dias, seguro)
+
+            elif tipo == "c":
+                consultor = input("  Nombre del consultor: ").strip()
+                print("  Nivel: Basico / Intermedio / Avanzado")
+                nivel = input("  Nivel: ").strip()
+                svc = AsesoriaEspecializada(id_svc, nombre, precio, consultor, nivel)
+
+            else:
+                print("  ✗ Opción no válida.")
+                return
+
+        except (ErrorDisponibilidadServicio, ErrorCalculoFinanciero) as e:
+            registrar_excepcion(e, "Creación de Servicio")
+            print(f"  ✗ Error en servicio: {e}")
+        except ValueError:
+            print("  ✗ Valor numérico inválido.")
+        except Exception as e:
+            registrar_excepcion(e, "Creación de Servicio (inesperado)")
+            print(f"  ✗ Error inesperado: {e}")
+        else:
+            self.servicios.append(svc)
+            registrar_evento(f"Servicio creado: {svc.mostrar_info()}")
+            print(f"  ✓ Servicio creado: {svc.obtener_detalles()}")
+
+    # ── Creación de Reserva ───────────────────────────────
 
     def ejecutar_crear_reserva(self):
-        """Lógica para conectar un cliente con un servicio"""
         if not self.clientes:
-            print("⚠️ No hay clientes registrados.")
+            print("  ⚠ No hay clientes registrados.")
+            return
+        if not self.servicios:
+            print("  ⚠ No hay servicios creados.")
+            return
+
+        print("\n--- Crear Reserva ---")
+
+        # Mostrar clientes
+        print("  Clientes disponibles:")
+        for i, c in enumerate(self.clientes):
+            print(f"    [{i}] {c}")
+        try:
+            idx_c = int(input("  Seleccione cliente (número): ").strip())
+            cliente = self.clientes[idx_c]
+        except (ValueError, IndexError):
+            print("  ✗ Selección de cliente inválida.")
+            return
+
+        # Mostrar servicios
+        print("  Servicios disponibles:")
+        for i, s in enumerate(self.servicios):
+            print(f"    [{i}] {s.nombre} — {s.obtener_detalles()}")
+        try:
+            idx_s = int(input("  Seleccione servicio (número): ").strip())
+            servicio = self.servicios[idx_s]
+        except (ValueError, IndexError):
+            print("  ✗ Selección de servicio inválida.")
             return
 
         try:
-            print("\n--- Crear Nueva Reserva ---")
-            # Simulación de selección (en GUI sería un ComboBox)
-            cliente = self.clientes[-1] 
-            
-            # Crear un servicio rápido para la prueba
-            servicio = ReservaSala("S01", "Sala de Juntas A", 50000, 10)
-            
-            nueva_reserva = Reserva(cliente, servicio)
-            nueva_reserva.confirmar_reserva()
-            self.reservas.append(nueva_reserva)
-            
-            #registrar_evento(f"Reserva creada para {cliente.nombre}", nivel="info")
-            print(f"✅ Reserva exitosa: {nueva_reserva}")
-            
-        except (ErrorDisponibilidadServicio, ErrorReserva) as e:
-            #registrar_excepcion(e, contexto="Creación de Reserva")
-            print(f"❌ No se pudo crear la reserva: {e}")
+            fecha_str = input("  Fecha (YYYY-MM-DD): ").strip()
+            hora_str  = input("  Hora  (HH:MM):      ").strip()
+            duracion  = float(input("  Duración (horas):   ").strip())
+            notas     = input("  Notas (opcional):   ").strip()
+            id_res    = len(self.reservas) + 1
 
-    def listar_operaciones(self):
-        print("\n--- Resumen de Operaciones ---")
-        for res in self.reservas:
+            reserva = Reserva.crear_reserva(
+                id_res, cliente, servicio, fecha_str, hora_str, duracion, notas
+            )
+        except ErrorReserva as e:
+            registrar_excepcion(e, "Crear Reserva")
+            print(f"  ✗ No se pudo crear la reserva: {e}")
+        except ValueError:
+            print("  ✗ Duración inválida.")
+        except Exception as e:
+            registrar_excepcion(e, "Crear Reserva (inesperado)")
+            print(f"  ✗ Error inesperado: {e}")
+        else:
+            self.reservas.append(reserva)
+            registrar_evento(f"Reserva creada: {reserva}")
+            print(f"  ✓ {reserva}")
+
+            # Preguntar si confirmar de inmediato
+            if input("  ¿Confirmar ahora? (s/n): ").strip().lower() == "s":
+                try:
+                    reserva.confirmar()
+                    registrar_evento(f"Reserva #{reserva.id} confirmada")
+                    print("  ✓ Reserva confirmada.")
+                except ErrorReserva as e:
+                    registrar_excepcion(e, "Confirmar Reserva")
+                    print(f"  ✗ {e}")
+
+    # ── Listado de Reservas ───────────────────────────────
+
+    def listar_reservas(self):
+        print("\n--- Reservas Registradas ---")
+        if not self.reservas:
+            print("  (No hay reservas registradas)")
+            return
+
+        for reserva in self.reservas:
             try:
-                costo = res.calcular_costo_reserva(aplicar_iva=True)
-                print(f"{res} | Costo Total (IVA): ${costo:,.2f}")
+                costo = reserva.servicio.calcular_costo()
+                costo_str = f"${costo:,.2f}"
             except ErrorCalculoFinanciero as e:
-                print(f"❌ Error al calcular costo de {res._id}: {e}")
+                registrar_excepcion(e, "Listar Reservas")
+                costo_str = "(error de cálculo)"
+
+            print(f"  {reserva} | Costo estimado: {costo_str}")
+
+    # ── Mostrar Clientes ──────────────────────────────────
 
     def mostrar_clientes(self):
-        print("\n--- Lista de Clientes Registrados ---\n")
-        
+        print("\n--- Lista de Clientes ---")
         if not self.clientes:
-            print("No hay clientes registrados aún.")
+            print("  (No hay clientes registrados)")
             return
-        
-        for i, cliente in enumerate(self.clientes, start=1):
-            print(f"\n[{i}] {cliente.mostrar_info()}")
-        
-        print(f"\nTotal: {len(self.clientes)} cliente(s)")
+        for i, c in enumerate(self.clientes, 1):
+            print(f"  [{i}] {c.mostrar_info()}")
+        print(f"\n  Total: {len(self.clientes)} cliente(s)")
+
+    # ── Ver Log ───────────────────────────────────────────
+
+    def mostrar_log(self):
+        print("\n--- Últimas 20 líneas del Log ---")
+        for linea in leer_log(20):
+            print(" ", linea.rstrip())
+
+    # ── Ciclo principal ───────────────────────────────────
 
     def iniciar(self):
-        #registrar_inicio_sesion()
+        registrar_inicio_sesion()
         while True:
             opcion = self.mostrar_menu()
+
             if opcion == "1":
                 self.ejecutar_registro_cliente()
             elif opcion == "2":
-                print("Lógica de creación de servicios (prototipo)")
-                
+                self.ejecutar_crear_servicio()
             elif opcion == "3":
                 self.ejecutar_crear_reserva()
             elif opcion == "4":
-                self.listar_operaciones()
-            elif opcion == "test":
-                self.mostrar_clientes()
+                self.listar_reservas()
             elif opcion == "5":
-                #registrar_cierre_sesion()
-                print("Saliendo del sistema...")
+                self.mostrar_clientes()
+            elif opcion == "6":
+                self.mostrar_log()
+            elif opcion == "7":
+                clientes, servicios, reservas = simular_10_operaciones()
+                # Integrar resultados de la simulación en el programa
+                self.clientes.extend(clientes)
+                self.servicios.extend(servicios)
+                self.reservas.extend(reservas)
+            elif opcion == "8":
+                registrar_cierre_sesion()
+                print("\n  Hasta pronto. Sistema cerrado.\n")
                 break
             else:
-                print("Opción no válida.")
+                print("  ⚠ Opción no válida. Intente de nuevo.")
+
+
+######################################
+# PUNTO DE ENTRADA
+######################################
 
 if __name__ == "__main__":
     app = Programa()
-    
-    cliente = Cliente(900, "1004208724", "Daniel", "Calle 1 456", "test1@example.com", "345678901")
-    app.clientes.append(cliente)
-    cliente = Cliente(901, "1004208726", "Carlos", "Calle 2 098", "test2@example.com", "542624566")
-    app.clientes.append(cliente)
-    cliente = Cliente(902, "1004208724", "Ronald", "Carrera 1 N 5 6", "test3@example.com", "256246545")
-    app.clientes.append(cliente)
-    cliente = Cliente(903, "1004208724", "Camila", "Carrera 2 # 6", "test4@example.com", "456456455")
-    app.clientes.append(cliente)
-    cliente = Cliente(904, "1004208724", "Miguel", "Av Jim 56 45", "test5@example.com", "134534536")
-    app.clientes.append(cliente)
-    
+
+    # ── Datos de prueba precargados ────────────────────────
+    try:
+        app.clientes.append(
+            Cliente(str(uuid.uuid4()), "C001", "Daniel Serrano", "Calle 1 #456",
+                    "daniel@example.com", "3001234567"))
+        app.clientes.append(
+            Cliente(str(uuid.uuid4()), "C002", "Carlos Ruiz", "Carrera 2 #098",
+                    "carlos@example.com", "3109876543"))
+        app.clientes.append(
+            Cliente(str(uuid.uuid4()), "C003", "Ronald Molina", "Carrera 1 N5-6",
+                    "ronald@example.com", "3207654321"))
+        app.clientes.append(
+            Cliente(str(uuid.uuid4()), "C004", "Camila Torres", "Carrera 2 #6",
+                    "camila@example.com", "3154443322"))
+        app.clientes.append(
+            Cliente(str(uuid.uuid4()), "C005", "Miguel Pérez", "Av Jim 56-45",
+                    "miguel@example.com", "3003332211"))
+
+        registrar_evento("5 clientes de prueba cargados al inicio.")
+    except ErrorDatosCliente as e:
+        registrar_excepcion(e, "Carga inicial de clientes")
+        print(f"Advertencia: no se pudieron cargar todos los clientes de prueba: {e}")
+
     app.iniciar()
-    

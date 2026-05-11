@@ -1,0 +1,7 @@
+[2026-05-10 16:31:08] [INFO] GUI: Cliente registrado: Cliente: Camila (1234567)
+[2026-05-10 16:55:05] [INFO] GUI: Cliente registrado: Cliente: Camila (222222)
+[2026-05-10 16:55:35] [INFO] GUI: Sala creada: SERVICIO: Camila | Precio Base: $20,000.00 | Sala para 3 personas | Duración: 1.0h
+[2026-05-10 16:55:48] [INFO] GUI: Reserva creada: Reserva #1 | Camila | Camila | 11/05/2026 09:00 | Estado: pendiente | Duración: 2.0h
+[2026-05-11 07:14:57] [INFO] GUI: Cliente registrado: Cliente: Juan Perdomo (112333)
+[2026-05-11 07:15:18] [INFO] GUI: Sala creada: SERVICIO: Juan jose | Precio Base: $10,000.00 | Sala para 22 personas | Duración: 3.0h
+[2026-05-11 07:15:34] [INFO] GUI: Reserva creada: Reserva #1 | Juan Perdomo | Juan jose | 12/05/2026 09:00 | Estado: pendiente | Duración: 2.0h
