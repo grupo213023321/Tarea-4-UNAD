@@ -10,12 +10,13 @@
 #
 ##########################################################
 
-from validadores import ValidadorDatos
 from abc import ABC, abstractmethod
 from datetime import datetime, timedelta   # ← timedelta agregado (faltaba)
 from typing import List, Optional
 import re
-
+#Nuevas integraciones 
+from validadores import ValidadorDatos
+from excepciones import ErrorDatosCliente, ErrorCalculoFinanciero, ErrorDisponibilidadServicio
 
 ######################################
 # CLASES DE EXCEPCIONES PERSONALIZADAS
