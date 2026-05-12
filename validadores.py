@@ -1,36 +1,119 @@
-import re
+##########################################################
+#
+# --- Archivo validadores.py ---
+#
+# - Última actualización: 12 - 5 - 2026
+# - Aporte: Yuliana Morcillo Chatez 
+
+# Descripción: Módulo de validación estricta de datos.
+#              Contiene la clase ValidadorDatos con métodos
+#              estáticos para verificar correo, teléfono y
+#              nombre de servicio antes de que sean asignados
+#              a cualquier objeto del sistema.
+#
+##########################################################
+
+import re  # Módulo de expresiones regulares de Python (built-in)
+
+# Importa la función de registro de advertencias del módulo de log
 from log import registrar_evento, NIVEL_WARNING
+
+# Importa la excepción personalizada para errores de datos de cliente
 from excepciones import ErrorDatosCliente
 
-##########################################################
-# Módulo de Validación Estricta - Software FJ
-# Aporte: Yuliana Morcillo Chatez
-##########################################################
 
 class ValidadorDatos:
+    """
+    Clase utilitaria con validaciones reutilizables.
+    Todos sus métodos son estáticos: no necesitan instancia
+    de la clase para ser llamados (ValidadorDatos.validar_correo(...)).
+    """
+
     @staticmethod
     def validar_correo(correo: str) -> bool:
-        """Valida que el correo tenga un formato real usuario@dominio.com"""
+        """
+        Verifica que el correo tenga formato válido: usuario@dominio.ext
+        Usa una expresión regular (regex) para validar la estructura.
+
+        Parámetros:
+            correo (str): cadena de texto a validar.
+
+        Retorna:
+            True si el correo es válido.
+
+        Lanza:
+            ErrorDatosCliente si el formato no coincide con el patrón.
+        """
+        # Patrón regex: acepta letras, dígitos, punto y guion bajo
+        # antes del @, luego dominio con punto y extensión
         patron = r'^[a-z0-9]+[\._]?[a-z0-9]+[@]\w+[.]\w+$'
+
+        # re.match compara desde el inicio de la cadena; se convierte
+        # el correo a minúsculas para comparación case-insensitive
         if not re.match(patron, correo.lower()):
-            # Registra el error en el log
-            registrar_evento(f"Validación Fallida: Correo '{correo}'", nivel=NIVEL_WARNING)
+            # Registra en el log el intento fallido como advertencia
+            registrar_evento(
+                f"Validación Fallida: Correo '{correo}'",
+                nivel=NIVEL_WARNING
+            )
+            # Lanza excepción indicando qué campo falló y por qué
             raise ErrorDatosCliente("correo", f"Formato de correo inválido.")
+
+        # Si llegó hasta aquí, el correo es válido
         return True
 
     @staticmethod
     def validar_telefono(telefono: str) -> bool:
-        """Valida que el teléfono tenga exactamente 10 números."""
+        """
+        Verifica que el teléfono tenga exactamente 10 dígitos numéricos.
+        Esta regla aplica para números de teléfono colombianos.
+
+        Parámetros:
+            telefono (str): cadena de texto a validar.
+
+        Retorna:
+            True si el teléfono es válido.
+
+        Lanza:
+            ErrorDatosCliente si la longitud o los caracteres no son válidos.
+        """
+        # len(telefono) == 10 verifica la longitud exacta
+        # telefono.isdigit() verifica que todos los caracteres sean números
         if not (len(telefono) == 10 and telefono.isdigit()):
-            # Registra también este error
-            registrar_evento(f"Validación Fallida: Teléfono '{telefono}'", nivel=NIVEL_WARNING)
-            raise ErrorDatosCliente("telefono", "El teléfono debe tener 10 dígitos numéricos.")
+            # Registra la advertencia en el archivo de log
+            registrar_evento(
+                f"Validación Fallida: Teléfono '{telefono}'",
+                nivel=NIVEL_WARNING
+            )
+            # Lanza excepción con el campo y la descripción del error
+            raise ErrorDatosCliente(
+                "telefono",
+                "El teléfono debe tener 10 dígitos numéricos."
+            )
+
+        # Si llegó hasta aquí, el teléfono es válido
         return True
 
     @staticmethod
     def validar_nombre_servicio(nombre: str) -> bool:
-        """Evita que el nombre del servicio esté vacío."""
+        """
+        Verifica que el nombre del servicio tenga al menos 4 caracteres.
+        Evita registrar servicios con nombres demasiado cortos o vacíos.
+
+        Parámetros:
+            nombre (str): nombre del servicio a validar.
+
+        Retorna:
+            True si el nombre cumple la longitud mínima, False si no.
+        """
+        # strip() elimina espacios al inicio y al final antes de medir
         if len(nombre.strip()) < 4:
-            registrar_evento(f"Validación Fallida: Nombre servicio corto '{nombre}'", nivel=NIVEL_WARNING)
-            return False
-        return True
+            # Registra la advertencia (no lanza excepción en este caso,
+            # solo retorna False para que el llamador decida qué hacer)
+            registrar_evento(
+                f"Validación Fallida: Nombre servicio corto '{nombre}'",
+                nivel=NIVEL_WARNING
+            )
+            return False  # Nombre inválido
+
+        return True  # Nombre válido
