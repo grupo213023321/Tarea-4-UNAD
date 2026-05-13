@@ -20,10 +20,13 @@ from datetime import datetime, timedelta  # Para manejo de fechas en reservas
 # Importa todas las clases del dominio del sistema
 from classes import (
     Cliente, ReservaSala, AlquilerEquipo, AsesoriaEspecializada,
-    Reserva, ErrorDatosCliente, ErrorDisponibilidadServicio,
-    ErrorCalculoFinanciero, ErrorReserva
+    Reserva
 )
 
+from excepciones import (
+    ErrorDatosCliente, ErrorDisponibilidadServicio,
+    ErrorCalculoFinanciero, ErrorReserva,
+)
 # Importa las funciones de log para registro de eventos y errores
 from log import (
     registrar_evento, registrar_excepcion,

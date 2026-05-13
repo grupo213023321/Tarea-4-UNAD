@@ -85,3 +85,8 @@ class ErrorDisponibilidadServicio(ErrorSistema):
         # Construye el mensaje con prefijo "Disponibilidad:" para
         # facilitar la identificación en los logs
         super().__init__(f"Disponibilidad: {mensaje}")
+        
+class ErrorReserva(ErrorSistema):
+    """Se lanza ante conflictos de fechas o tipos de reserva."""
+    def __init__(self, mensaje):
+        super().__init__(f"Conflicto de reserva: {mensaje}")
