@@ -93,27 +93,25 @@ class ValidadorDatos:
 
         # Si llegó hasta aquí, el teléfono es válido
         return True
-
+    
     @staticmethod
     def validar_nombre_servicio(nombre: str) -> bool:
         """
-        Verifica que el nombre del servicio tenga al menos 4 caracteres.
-        Evita registrar servicios con nombres demasiado cortos o vacíos.
-
-        Parámetros:
-            nombre (str): nombre del servicio a validar.
-
-        Retorna:
-            True si el nombre cumple la longitud mínima, False si no.
+        Valida la integridad del nombre del servicio.
+        Lanza ErrorDatosCliente para detener el flujo del programa si el dato es inválido.
         """
-        # strip() elimina espacios al inicio y al final antes de medir
-        if len(nombre.strip()) < 4:
-            # Registra la advertencia (no lanza excepción en este caso,
-            # solo retorna False para que el llamador decida qué hacer)
+        #Se eliminan espacios para evitar nombres que sean solo "   "
+        nombre_limpio = nombre.strip() if nombre else ""
+
+        # Mínimo 4 caracteres para ser un nombre válido
+        if len(nombre_limpio) < 4:
+            # Se deja rastro del intento fallido
             registrar_evento(
                 f"Validación Fallida: Nombre servicio corto '{nombre}'",
                 nivel=NIVEL_WARNING
             )
-            return False  # Nombre inválido
+            
+            raise ErrorDatosCliente("nombre", "El nombre del servicio debe tener al menos 4 caracteres.")
 
-        return True  # Nombre válido
+        # Si llega aquí, el flujo en el main.py continúa normalmente
+        return True

@@ -34,6 +34,8 @@ from log import (
 # Importa la función que ejecuta la simulación automática de 10 operaciones
 from servicios import simular_10_operaciones
 
+# Importa la clase de validación para asegurar la integridad de los datos de entrada
+from validadores import ValidadorDatos
 
 ######################################
 # CLASE PROGRAMA (MENÚ DE CONSOLA)
@@ -149,6 +151,9 @@ class Programa:
         try:
             # Lee los campos comunes a todos los servicios
             nombre = input("  Nombre del servicio: ").strip()
+            # Valida el nombre de inmediato; si es inválido, detiene el proceso y salta al manejo de errores
+            ValidadorDatos.validar_nombre_servicio(nombre)
+            
             precio = float(input("  Precio base ($): ").strip())  # float() puede lanzar ValueError
             id_svc = str(uuid.uuid4())  # ID único para el servicio
 
@@ -179,11 +184,11 @@ class Programa:
                 print("  ✗ Opción no válida.")
                 return  # Sale del método sin crear ningún servicio
 
-        except (ErrorDisponibilidadServicio, ErrorCalculoFinanciero) as e:
+        except (ErrorDisponibilidadServicio, ErrorCalculoFinanciero, ErrorDatosCliente) as e:
             # Captura errores específicos de creación de servicios
             registrar_excepcion(e, "Creación de Servicio")
-            print(f"  ✗ Error en servicio: {e}")
-
+            print(f"  ✗ error en servicio: {e}")
+    
         except ValueError:
             # Captura errores cuando el usuario ingresa texto donde se esperaba número
             print("  ✗ Valor numérico inválido.")

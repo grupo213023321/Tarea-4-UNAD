@@ -148,7 +148,7 @@ class Cliente(Entidad):
 
         # Validaciones previas usando el módulo externo ValidadorDatos
         # Estas pueden lanzar ErrorDatosCliente si los datos son inválidos
-        ValidadorDatos.validar_nombre(nombre)    # Verifica longitud mínima del nombre
+        ValidadorDatos.validar_nombre_servicio(nombre)    # Verifica longitud mínima del nombre
         ValidadorDatos.validar_correo(correo)    # Verifica formato usuario@dominio.ext
         ValidadorDatos.validar_telefono(telefono) # Verifica 10 dígitos numéricos
 
@@ -191,12 +191,12 @@ class Cliente(Entidad):
 
     @nombre.setter
     def nombre(self, valor):
-        """Setter: valida que el nombre no esté vacío y tenga al menos 3 caracteres."""
+        # Valida integridad (con validar_nombre_servicio), evita campos vacíos y exige mínimo 3 caracteres antes de asignar.
         if not valor or not valor.strip():
             raise ErrorDatosCliente("nombre", "El nombre no puede estar vacío.")
         if len(valor.strip()) < 3:
             raise ErrorDatosCliente("nombre", "El nombre debe tener al menos 3 caracteres.")
-        # Guarda el nombre sin espacios al inicio o al final
+        ValidadorDatos.validar_nombre_servicio(valor)
         self.__nombre = valor.strip()
 
     @property
