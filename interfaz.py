@@ -340,27 +340,24 @@ class AplicacionGUI:
             ))
 
     def eliminar_cliente(self):
-        """
-        Elimina el cliente seleccionado en la tabla después de pedir confirmación.
-        Filtra la lista de clientes en memoria por el ID del cliente seleccionado.
-        """
-        seleccion = self.tree_clientes.selection()  # Obtiene la fila seleccionada
+        seleccion = self.tree_clientes.selection()
         if not seleccion:
             messagebox.showwarning("Atención", "Seleccione un cliente para eliminar.")
             return
 
-        # Muestra diálogo de confirmación antes de eliminar
         if messagebox.askyesno("Confirmar", "¿Eliminar este cliente?"):
-            # Obtiene el ID del cliente desde los valores de la fila seleccionada
-            id_cliente = self.tree_clientes.item(seleccion[0])['values'][1]
+            # Obtenemos el valor del Treeview (viene como string por defecto)
+            id_desde_tabla = self.tree_clientes.item(seleccion[0])['values'][1]
 
-            # Filtra la lista manteniendo solo los clientes con ID diferente
-            self.clientes = [c for c in self.clientes if c.id_cliente != id_cliente]
+            # SOLUCIONADO: Se uso conversor a string para realizar correcta comparacion y eliminar correctamente el cliente 
+            # o convertir id_desde_tabla al tipo original (ej. int)
+            self.clientes = [c for c in self.clientes if str(c.id_cliente) != str(id_desde_tabla)]
+            
+            # Eliminar visualmente de la tabla (opcional si luego llamas a actualizar_lista)
+            self.tree_clientes.delete(seleccion[0])
 
-            # Registra la eliminación en el log
-            registrar_evento(f"GUI: Cliente {id_cliente} eliminado.")
-
-            # Actualiza la tabla para reflejar el cambio
+            # Registro y notificación
+            registrar_evento(f"GUI: Cliente {id_desde_tabla} eliminado.")
             self.actualizar_lista_clientes()
             messagebox.showinfo("Éxito", "Cliente eliminado.")
 
