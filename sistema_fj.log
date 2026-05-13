@@ -282,3 +282,49 @@ ValueError: could not convert string to float: ''
 [2026-05-12 22:49:40] [INFO] GUI: Equipo creado: SERVICIO: Karol Molina | Precio Base: $23,000.00 | Equipo: Karol Molina | Tiempo: 4 días | Con Seguro
 [2026-05-12 22:50:00] [INFO] GUI: Reserva creada: Reserva #1 | Karol Molina | Karol Molina | 13/05/2026 09:00 | Estado: pendiente | Duración: 2.0h
 [2026-05-12 22:50:03] [INFO] GUI: Reserva #1 confirmada.
+[2026-05-12 22:56:48] [INFO] GUI: Cliente registrado: Cliente: David Salas (1234567)
+[2026-05-12 22:57:44] [INFO] GUI: Cliente registrado: Cliente: Junior Scarpetta (134524656)
+[2026-05-12 22:58:41] [INFO] GUI: Cliente registrado: Cliente: Karen Perez (1133526556)
+[2026-05-12 22:58:58] [INFO] GUI: Sala creada: SERVICIO: Karen perez | Precio Base: $2,300,000.00 | Sala para 5 personas | Duración: 7.0h
+[2026-05-12 22:59:39] [INFO] GUI: Equipo creado: SERVICIO: Junior Scarpetta | Precio Base: $34,000.00 | Equipo: Junior Scarpetta | Tiempo: 3 días | Sin Seguro
+[2026-05-12 22:59:57] [INFO] GUI: Asesoría creada: SERVICIO: Programacion | Precio Base: $200,000.00 | Consultor: Camila | Nivel: Intermedio
+[2026-05-12 23:00:07] [INFO] GUI: Reserva creada: Reserva #1 | David Salas | Programacion | 13/05/2026 09:00 | Estado: pendiente | Duración: 2.0h
+[2026-05-12 23:00:13] [INFO] GUI: Reserva creada: Reserva #2 | Junior Scarpetta | Junior Scarpetta | 13/05/2026 09:00 | Estado: pendiente | Duración: 2.0h
+[2026-05-12 23:00:16] [ERROR] GUI Procesar Reserva → Excepción [ErrorReserva] | DETALLE: [Reserva/Procesamiento] La reserva debe estar confirmada antes de procesarse.
+Traceback (most recent call last):
+  File "c:\Users\user\Documents\UNAD\Tercer semestre\Programacion\Tarea4\Tarea-4-UNAD\interfaz.py", line 907, in procesar_reserva
+    costo = reserva.procesar()
+  File "c:\Users\user\Documents\UNAD\Tercer semestre\Programacion\Tarea4\Tarea-4-UNAD\classes.py", line 892, in procesar
+    raise ErrorReserva(
+    ...<2 lines>...
+    )
+classes.ErrorReserva: [Reserva/Procesamiento] La reserva debe estar confirmada antes de procesarse.
+
+[2026-05-12 23:00:17] [INFO] GUI: Reserva #2 confirmada.
+[2026-05-12 23:00:20] [INFO] GUI: Reserva #2 procesada. Costo: $102,000
+[2026-05-12 23:00:23] [INFO] GUI: Reserva #1 confirmada.
+[2026-05-12 23:00:28] [INFO] GUI: Reserva creada: Reserva #3 | Karen Perez | Karen perez | 13/05/2026 09:00 | Estado: pendiente | Duración: 2.0h
+[2026-05-12 23:00:31] [INFO] GUI: Reserva #3 confirmada.
+[2026-05-12 23:00:34] [INFO] GUI: Reserva #3 procesada. Costo: $19,159,000
+[2026-05-12 23:00:37] [ERROR] GUI Cancelar Reserva → Excepción [ErrorReserva] | DETALLE: [Reserva/Cancelación] No se puede cancelar una reserva ya completada.
+Traceback (most recent call last):
+  File "c:\Users\user\Documents\UNAD\Tercer semestre\Programacion\Tarea4\Tarea-4-UNAD\interfaz.py", line 886, in cancelar_reserva
+    reserva.cancelar()  # Lanza ErrorReserva si ya está completada
+    ~~~~~~~~~~~~~~~~^^
+  File "c:\Users\user\Documents\UNAD\Tercer semestre\Programacion\Tarea4\Tarea-4-UNAD\classes.py", line 870, in cancelar
+    raise ErrorReserva(
+    ...<2 lines>...
+    )
+classes.ErrorReserva: [Reserva/Cancelación] No se puede cancelar una reserva ya completada.
+
+[2026-05-12 23:00:39] [ERROR] GUI Confirmar Reserva → Excepción [ErrorReserva] | DETALLE: [Reserva/Estado] Solo se pueden confirmar reservas pendientes.
+Traceback (most recent call last):
+  File "c:\Users\user\Documents\UNAD\Tercer semestre\Programacion\Tarea4\Tarea-4-UNAD\interfaz.py", line 865, in confirmar_reserva
+    reserva.confirmar()  # Lanza ErrorReserva si no está en estado 'pendiente'
+    ~~~~~~~~~~~~~~~~~^^
+  File "c:\Users\user\Documents\UNAD\Tercer semestre\Programacion\Tarea4\Tarea-4-UNAD\classes.py", line 856, in confirmar
+    raise ErrorReserva(
+    ...<2 lines>...
+    )
+classes.ErrorReserva: [Reserva/Estado] Solo se pueden confirmar reservas pendientes.
+
