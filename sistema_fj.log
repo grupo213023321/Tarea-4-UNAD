@@ -5,3 +5,280 @@
 [2026-05-11 07:14:57] [INFO] GUI: Cliente registrado: Cliente: Juan Perdomo (112333)
 [2026-05-11 07:15:18] [INFO] GUI: Sala creada: SERVICIO: Juan jose | Precio Base: $10,000.00 | Sala para 22 personas | Duración: 3.0h
 [2026-05-11 07:15:34] [INFO] GUI: Reserva creada: Reserva #1 | Juan Perdomo | Juan jose | 12/05/2026 09:00 | Estado: pendiente | Duración: 2.0h
+[2026-05-12 20:54:56] [ERROR] GUI Registro Cliente (inesperado) → Excepción [AttributeError] | DETALLE: type object 'ValidadorDatos' has no attribute 'validar_nombre'
+Traceback (most recent call last):
+  File "c:\Users\user\Documents\UNAD\Tercer semestre\Programacion\Tarea4\Tarea-4-UNAD\interfaz.py", line 292, in registrar_cliente
+    nuevo_cliente = Cliente(str(uuid.uuid4()), id_cliente, nombre,
+                            direccion, correo, telefono)
+  File "c:\Users\user\Documents\UNAD\Tercer semestre\Programacion\Tarea4\Tarea-4-UNAD\classes.py", line 151, in __init__
+    ValidadorDatos.validar_nombre(nombre)    # Verifica longitud mínima del nombre
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: type object 'ValidadorDatos' has no attribute 'validar_nombre'. Did you mean: 'validar_correo'?
+
+[2026-05-12 20:55:36] [ERROR] GUI Registro Cliente (inesperado) → Excepción [AttributeError] | DETALLE: type object 'ValidadorDatos' has no attribute 'validar_nombre'
+Traceback (most recent call last):
+  File "c:\Users\user\Documents\UNAD\Tercer semestre\Programacion\Tarea4\Tarea-4-UNAD\interfaz.py", line 292, in registrar_cliente
+    nuevo_cliente = Cliente(str(uuid.uuid4()), id_cliente, nombre,
+                            direccion, correo, telefono)
+  File "c:\Users\user\Documents\UNAD\Tercer semestre\Programacion\Tarea4\Tarea-4-UNAD\classes.py", line 151, in __init__
+    ValidadorDatos.validar_nombre(nombre)    # Verifica longitud mínima del nombre
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: type object 'ValidadorDatos' has no attribute 'validar_nombre'. Did you mean: 'validar_correo'?
+
+[2026-05-12 20:55:40] [ERROR] GUI Registro Cliente (inesperado) → Excepción [AttributeError] | DETALLE: type object 'ValidadorDatos' has no attribute 'validar_nombre'
+Traceback (most recent call last):
+  File "c:\Users\user\Documents\UNAD\Tercer semestre\Programacion\Tarea4\Tarea-4-UNAD\interfaz.py", line 292, in registrar_cliente
+    nuevo_cliente = Cliente(str(uuid.uuid4()), id_cliente, nombre,
+                            direccion, correo, telefono)
+  File "c:\Users\user\Documents\UNAD\Tercer semestre\Programacion\Tarea4\Tarea-4-UNAD\classes.py", line 151, in __init__
+    ValidadorDatos.validar_nombre(nombre)    # Verifica longitud mínima del nombre
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: type object 'ValidadorDatos' has no attribute 'validar_nombre'. Did you mean: 'validar_correo'?
+
+[2026-05-12 20:56:37] [ERROR] GUI Registro Cliente (inesperado) → Excepción [AttributeError] | DETALLE: type object 'ValidadorDatos' has no attribute 'validar_nombre'
+Traceback (most recent call last):
+  File "c:\Users\user\Documents\UNAD\Tercer semestre\Programacion\Tarea4\Tarea-4-UNAD\interfaz.py", line 292, in registrar_cliente
+    nuevo_cliente = Cliente(str(uuid.uuid4()), id_cliente, nombre,
+                            direccion, correo, telefono)
+  File "c:\Users\user\Documents\UNAD\Tercer semestre\Programacion\Tarea4\Tarea-4-UNAD\classes.py", line 151, in __init__
+    ValidadorDatos.validar_nombre(nombre)    # Verifica longitud mínima del nombre
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: type object 'ValidadorDatos' has no attribute 'validar_nombre'. Did you mean: 'validar_correo'?
+
+[2026-05-12 20:58:23] [WARNING] Validación Fallida: Correo '1'
+[2026-05-12 20:58:23] [ERROR] GUI Registro Cliente (inesperado) → Excepción [ErrorDatosCliente] | DETALLE: Error en el campo 'correo': Formato de correo inválido.
+Traceback (most recent call last):
+  File "c:\Users\user\Documents\UNAD\Tercer semestre\Programacion\Tarea4\Tarea-4-UNAD\interfaz.py", line 292, in registrar_cliente
+    nuevo_cliente = Cliente(str(uuid.uuid4()), id_cliente, nombre,
+                            direccion, correo, telefono)
+  File "c:\Users\user\Documents\UNAD\Tercer semestre\Programacion\Tarea4\Tarea-4-UNAD\classes.py", line 152, in __init__
+    ValidadorDatos.validar_correo(correo)    # Verifica formato usuario@dominio.ext
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^
+  File "c:\Users\user\Documents\UNAD\Tercer semestre\Programacion\Tarea4\Tarea-4-UNAD\validadores.py", line 60, in validar_correo
+    raise ErrorDatosCliente("correo", f"Formato de correo inválido.")
+excepciones.ErrorDatosCliente: Error en el campo 'correo': Formato de correo inválido.
+
+[2026-05-12 20:58:25] [WARNING] Validación Fallida: Correo '1'
+[2026-05-12 20:58:25] [ERROR] GUI Registro Cliente (inesperado) → Excepción [ErrorDatosCliente] | DETALLE: Error en el campo 'correo': Formato de correo inválido.
+Traceback (most recent call last):
+  File "c:\Users\user\Documents\UNAD\Tercer semestre\Programacion\Tarea4\Tarea-4-UNAD\interfaz.py", line 292, in registrar_cliente
+    nuevo_cliente = Cliente(str(uuid.uuid4()), id_cliente, nombre,
+                            direccion, correo, telefono)
+  File "c:\Users\user\Documents\UNAD\Tercer semestre\Programacion\Tarea4\Tarea-4-UNAD\classes.py", line 152, in __init__
+    ValidadorDatos.validar_correo(correo)    # Verifica formato usuario@dominio.ext
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^
+  File "c:\Users\user\Documents\UNAD\Tercer semestre\Programacion\Tarea4\Tarea-4-UNAD\validadores.py", line 60, in validar_correo
+    raise ErrorDatosCliente("correo", f"Formato de correo inválido.")
+excepciones.ErrorDatosCliente: Error en el campo 'correo': Formato de correo inválido.
+
+[2026-05-12 20:58:35] [WARNING] Validación Fallida: Teléfono '32442341'
+[2026-05-12 20:58:35] [ERROR] GUI Registro Cliente (inesperado) → Excepción [ErrorDatosCliente] | DETALLE: Error en el campo 'telefono': El teléfono debe tener 10 dígitos numéricos.
+Traceback (most recent call last):
+  File "c:\Users\user\Documents\UNAD\Tercer semestre\Programacion\Tarea4\Tarea-4-UNAD\interfaz.py", line 292, in registrar_cliente
+    nuevo_cliente = Cliente(str(uuid.uuid4()), id_cliente, nombre,
+                            direccion, correo, telefono)
+  File "c:\Users\user\Documents\UNAD\Tercer semestre\Programacion\Tarea4\Tarea-4-UNAD\classes.py", line 153, in __init__
+    ValidadorDatos.validar_telefono(telefono) # Verifica 10 dígitos numéricos
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "c:\Users\user\Documents\UNAD\Tercer semestre\Programacion\Tarea4\Tarea-4-UNAD\validadores.py", line 89, in validar_telefono
+    raise ErrorDatosCliente(
+    ...<2 lines>...
+    )
+excepciones.ErrorDatosCliente: Error en el campo 'telefono': El teléfono debe tener 10 dígitos numéricos.
+
+[2026-05-12 20:58:43] [INFO] GUI: Cliente registrado: Cliente: Camila (2312344)
+[2026-05-12 20:59:45] [INFO] GUI: Cliente registrado: Cliente: Sara Juliana (1083910914)
+[2026-05-12 21:00:25] [INFO] GUI: Asesoría creada: SERVICIO: Sara Juliana | Precio Base: $30,000.00 | Consultor: Camila | Nivel: Basico
+[2026-05-12 21:00:39] [INFO] GUI: Reserva creada: Reserva #1 | Sara Juliana | Sara Juliana | 13/05/2026 09:00 | Estado: pendiente | Duración: 2.0h
+[2026-05-12 22:09:47] [WARNING] Validación Fallida: Correo 'junimarit028@'
+[2026-05-12 22:09:47] [ERROR] GUI Registro Cliente (inesperado) → Excepción [ErrorDatosCliente] | DETALLE: Error en el campo 'correo': Formato de correo inválido.
+Traceback (most recent call last):
+  File "c:\Users\user\Documents\UNAD\Tercer semestre\Programacion\Tarea4\Tarea-4-UNAD\interfaz.py", line 292, in registrar_cliente
+    nuevo_cliente = Cliente(str(uuid.uuid4()), id_cliente, nombre,
+                            direccion, correo, telefono)
+  File "c:\Users\user\Documents\UNAD\Tercer semestre\Programacion\Tarea4\Tarea-4-UNAD\classes.py", line 152, in __init__
+    ValidadorDatos.validar_correo(correo)    # Verifica formato usuario@dominio.ext
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^
+  File "c:\Users\user\Documents\UNAD\Tercer semestre\Programacion\Tarea4\Tarea-4-UNAD\validadores.py", line 60, in validar_correo
+    raise ErrorDatosCliente("correo", f"Formato de correo inválido.")
+excepciones.ErrorDatosCliente: Error en el campo 'correo': Formato de correo inválido.
+
+[2026-05-12 22:09:54] [INFO] GUI: Cliente registrado: Cliente: Maritza Rojas (128080808)
+[2026-05-12 22:10:35] [INFO] GUI: Equipo creado: SERVICIO: Maritza Rojas | Precio Base: $50,000.00 | Equipo: Maritza Rojas | Tiempo: 3 días | Con Seguro
+[2026-05-12 22:11:10] [INFO] GUI: Reserva creada: Reserva #1 | Maritza Rojas | Maritza Rojas | 13/05/2026 09:00 | Estado: pendiente | Duración: 2.0h
+[2026-05-12 22:11:13] [INFO] GUI: Reserva #1 confirmada.
+[2026-05-12 22:11:18] [INFO] GUI: Reserva #1 procesada. Costo: $200,000
+[2026-05-12 22:11:24] [ERROR] GUI Cancelar Reserva → Excepción [ErrorReserva] | DETALLE: [Reserva/Cancelación] No se puede cancelar una reserva ya completada.
+Traceback (most recent call last):
+  File "c:\Users\user\Documents\UNAD\Tercer semestre\Programacion\Tarea4\Tarea-4-UNAD\interfaz.py", line 889, in cancelar_reserva
+    reserva.cancelar()  # Lanza ErrorReserva si ya está completada
+    ~~~~~~~~~~~~~~~~^^
+  File "c:\Users\user\Documents\UNAD\Tercer semestre\Programacion\Tarea4\Tarea-4-UNAD\classes.py", line 870, in cancelar
+    raise ErrorReserva(
+    ...<2 lines>...
+    )
+classes.ErrorReserva: [Reserva/Cancelación] No se puede cancelar una reserva ya completada.
+
+[2026-05-12 22:11:36] [INFO] GUI: Cliente 128080808 eliminado.
+[2026-05-12 22:11:40] [INFO] GUI: Cliente 128080808 eliminado.
+[2026-05-12 22:11:52] [INFO] GUI: Cliente 128080808 eliminado.
+[2026-05-12 22:12:02] [ERROR] GUI Cancelar Reserva → Excepción [ErrorReserva] | DETALLE: [Reserva/Cancelación] No se puede cancelar una reserva ya completada.
+Traceback (most recent call last):
+  File "c:\Users\user\Documents\UNAD\Tercer semestre\Programacion\Tarea4\Tarea-4-UNAD\interfaz.py", line 889, in cancelar_reserva
+    reserva.cancelar()  # Lanza ErrorReserva si ya está completada
+    ~~~~~~~~~~~~~~~~^^
+  File "c:\Users\user\Documents\UNAD\Tercer semestre\Programacion\Tarea4\Tarea-4-UNAD\classes.py", line 870, in cancelar
+    raise ErrorReserva(
+    ...<2 lines>...
+    )
+classes.ErrorReserva: [Reserva/Cancelación] No se puede cancelar una reserva ya completada.
+
+[2026-05-12 22:13:53] [INFO] GUI: Cliente 128080808 eliminado.
+[2026-05-12 22:14:43] [WARNING] Validación Fallida: Teléfono '32130313308'
+[2026-05-12 22:14:43] [ERROR] GUI Registro Cliente (inesperado) → Excepción [ErrorDatosCliente] | DETALLE: Error en el campo 'telefono': El teléfono debe tener 10 dígitos numéricos.
+Traceback (most recent call last):
+  File "c:\Users\user\Documents\UNAD\Tercer semestre\Programacion\Tarea4\Tarea-4-UNAD\interfaz.py", line 292, in registrar_cliente
+    nuevo_cliente = Cliente(str(uuid.uuid4()), id_cliente, nombre,
+                            direccion, correo, telefono)
+  File "c:\Users\user\Documents\UNAD\Tercer semestre\Programacion\Tarea4\Tarea-4-UNAD\classes.py", line 153, in __init__
+    ValidadorDatos.validar_telefono(telefono) # Verifica 10 dígitos numéricos
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "c:\Users\user\Documents\UNAD\Tercer semestre\Programacion\Tarea4\Tarea-4-UNAD\validadores.py", line 89, in validar_telefono
+    raise ErrorDatosCliente(
+    ...<2 lines>...
+    )
+excepciones.ErrorDatosCliente: Error en el campo 'telefono': El teléfono debe tener 10 dígitos numéricos.
+
+[2026-05-12 22:14:51] [INFO] GUI: Cliente registrado: Cliente: Kevin Meneses (26676879797)
+[2026-05-12 22:14:56] [INFO] GUI: Cliente 26676879797 eliminado.
+[2026-05-12 22:16:08] [INFO] GUI: Cliente 26676879797 eliminado.
+[2026-05-12 22:23:02] [INFO] GUI: Cliente registrado: Cliente: Eduardo Leon (1234566)
+[2026-05-12 22:23:06] [INFO] GUI: Cliente 1234566 eliminado.
+[2026-05-12 22:23:10] [INFO] GUI: Cliente 1234566 eliminado.
+[2026-05-12 22:27:07] [INFO] GUI: Cliente registrado: Cliente: Camilo Rojas (34422422)
+[2026-05-12 22:27:10] [INFO] GUI: Cliente 34422422 eliminado.
+[2026-05-12 22:29:16] [INFO] GUI: Cliente registrado: Cliente: Juan Leon (666767676)
+[2026-05-12 22:29:31] [INFO] GUI: Sala creada: SERVICIO: Juan jose | Precio Base: $2,300,000.00 | Sala para 2 personas | Duración: 2.0h
+[2026-05-12 22:29:54] [INFO] GUI: Equipo creado: SERVICIO: juan jose | Precio Base: $500,000.00 | Equipo: juan jose | Tiempo: 4 días | Sin Seguro
+[2026-05-12 22:30:14] [INFO] GUI: Asesoría creada: SERVICIO: juan jose | Precio Base: $20,000.00 | Consultor: Mathias Galindez  | Nivel: Avanzado
+[2026-05-12 22:30:24] [INFO] GUI: Reserva creada: Reserva #1 | Juan Leon | Juan jose | 13/05/2026 09:00 | Estado: pendiente | Duración: 2.0h
+[2026-05-12 22:30:29] [ERROR] GUI Procesar Reserva → Excepción [ErrorReserva] | DETALLE: [Reserva/Procesamiento] La reserva debe estar confirmada antes de procesarse.
+Traceback (most recent call last):
+  File "c:\Users\user\Documents\UNAD\Tercer semestre\Programacion\Tarea4\Tarea-4-UNAD\interfaz.py", line 910, in procesar_reserva
+    costo = reserva.procesar()
+  File "c:\Users\user\Documents\UNAD\Tercer semestre\Programacion\Tarea4\Tarea-4-UNAD\classes.py", line 892, in procesar
+    raise ErrorReserva(
+    ...<2 lines>...
+    )
+classes.ErrorReserva: [Reserva/Procesamiento] La reserva debe estar confirmada antes de procesarse.
+
+[2026-05-12 22:30:33] [INFO] GUI: Reserva #1 confirmada.
+[2026-05-12 22:30:36] [INFO] GUI: Reserva #1 procesada. Costo: $5,474,000
+[2026-05-12 22:30:43] [ERROR] GUI Cancelar Reserva → Excepción [ErrorReserva] | DETALLE: [Reserva/Cancelación] No se puede cancelar una reserva ya completada.
+Traceback (most recent call last):
+  File "c:\Users\user\Documents\UNAD\Tercer semestre\Programacion\Tarea4\Tarea-4-UNAD\interfaz.py", line 889, in cancelar_reserva
+    reserva.cancelar()  # Lanza ErrorReserva si ya está completada
+    ~~~~~~~~~~~~~~~~^^
+  File "c:\Users\user\Documents\UNAD\Tercer semestre\Programacion\Tarea4\Tarea-4-UNAD\classes.py", line 870, in cancelar
+    raise ErrorReserva(
+    ...<2 lines>...
+    )
+classes.ErrorReserva: [Reserva/Cancelación] No se puede cancelar una reserva ya completada.
+
+[2026-05-12 22:30:50] [INFO] GUI: Reserva creada: Reserva #2 | Juan Leon | juan jose | 13/05/2026 09:00 | Estado: pendiente | Duración: 2.0h
+[2026-05-12 22:30:55] [INFO] GUI: Reserva #2 cancelada.
+[2026-05-12 22:31:56] [INFO] GUI: Reserva #2 cancelada.
+[2026-05-12 22:33:23] [INFO] GUI: Cliente registrado: Cliente: Eduardo Pineda (787878787)
+[2026-05-12 22:33:26] [INFO] GUI: Cliente 787878787 eliminado.
+[2026-05-12 22:44:24] [INFO] GUI: Cliente registrado: Cliente: Daniel Serrano (35465263)
+[2026-05-12 22:44:31] [ERROR] GUI Crear Sala → Excepción [ValueError] | DETALLE: could not convert string to float: ''
+Traceback (most recent call last):
+  File "c:\Users\user\Documents\UNAD\Tercer semestre\Programacion\Tarea4\Tarea-4-UNAD\interfaz.py", line 568, in crear_sala
+    precio    = float(self.entries_sala["precio"].get())     # Puede lanzar ValueError
+ValueError: could not convert string to float: ''
+
+[2026-05-12 22:44:52] [INFO] GUI: Sala creada: SERVICIO: Daniel Serrano | Precio Base: $500,000.00 | Sala para 6 personas | Duración: 9.0h
+[2026-05-12 22:45:25] [INFO] GUI: Reserva creada: Reserva #1 | Daniel Serrano | Daniel Serrano | 13/05/2026 09:00 | Estado: pendiente | Duración: 2.0h
+[2026-05-12 22:45:28] [ERROR] GUI Procesar Reserva → Excepción [ErrorReserva] | DETALLE: [Reserva/Procesamiento] La reserva debe estar confirmada antes de procesarse.
+Traceback (most recent call last):
+  File "c:\Users\user\Documents\UNAD\Tercer semestre\Programacion\Tarea4\Tarea-4-UNAD\interfaz.py", line 907, in procesar_reserva
+    costo = reserva.procesar()
+  File "c:\Users\user\Documents\UNAD\Tercer semestre\Programacion\Tarea4\Tarea-4-UNAD\classes.py", line 892, in procesar
+    raise ErrorReserva(
+    ...<2 lines>...
+    )
+classes.ErrorReserva: [Reserva/Procesamiento] La reserva debe estar confirmada antes de procesarse.
+
+[2026-05-12 22:45:29] [INFO] GUI: Reserva #1 confirmada.
+[2026-05-12 22:45:34] [INFO] GUI: Reserva #1 cancelada.
+[2026-05-12 22:45:37] [ERROR] GUI Procesar Reserva → Excepción [ErrorReserva] | DETALLE: [Reserva/Procesamiento] La reserva debe estar confirmada antes de procesarse.
+Traceback (most recent call last):
+  File "c:\Users\user\Documents\UNAD\Tercer semestre\Programacion\Tarea4\Tarea-4-UNAD\interfaz.py", line 907, in procesar_reserva
+    costo = reserva.procesar()
+  File "c:\Users\user\Documents\UNAD\Tercer semestre\Programacion\Tarea4\Tarea-4-UNAD\classes.py", line 892, in procesar
+    raise ErrorReserva(
+    ...<2 lines>...
+    )
+classes.ErrorReserva: [Reserva/Procesamiento] La reserva debe estar confirmada antes de procesarse.
+
+[2026-05-12 22:45:38] [ERROR] GUI Confirmar Reserva → Excepción [ErrorReserva] | DETALLE: [Reserva/Estado] Solo se pueden confirmar reservas pendientes.
+Traceback (most recent call last):
+  File "c:\Users\user\Documents\UNAD\Tercer semestre\Programacion\Tarea4\Tarea-4-UNAD\interfaz.py", line 865, in confirmar_reserva
+    reserva.confirmar()  # Lanza ErrorReserva si no está en estado 'pendiente'
+    ~~~~~~~~~~~~~~~~~^^
+  File "c:\Users\user\Documents\UNAD\Tercer semestre\Programacion\Tarea4\Tarea-4-UNAD\classes.py", line 856, in confirmar
+    raise ErrorReserva(
+    ...<2 lines>...
+    )
+classes.ErrorReserva: [Reserva/Estado] Solo se pueden confirmar reservas pendientes.
+
+[2026-05-12 22:45:40] [ERROR] GUI Procesar Reserva → Excepción [ErrorReserva] | DETALLE: [Reserva/Procesamiento] La reserva debe estar confirmada antes de procesarse.
+Traceback (most recent call last):
+  File "c:\Users\user\Documents\UNAD\Tercer semestre\Programacion\Tarea4\Tarea-4-UNAD\interfaz.py", line 907, in procesar_reserva
+    costo = reserva.procesar()
+  File "c:\Users\user\Documents\UNAD\Tercer semestre\Programacion\Tarea4\Tarea-4-UNAD\classes.py", line 892, in procesar
+    raise ErrorReserva(
+    ...<2 lines>...
+    )
+classes.ErrorReserva: [Reserva/Procesamiento] La reserva debe estar confirmada antes de procesarse.
+
+[2026-05-12 22:45:42] [ERROR] GUI Confirmar Reserva → Excepción [ErrorReserva] | DETALLE: [Reserva/Estado] Solo se pueden confirmar reservas pendientes.
+Traceback (most recent call last):
+  File "c:\Users\user\Documents\UNAD\Tercer semestre\Programacion\Tarea4\Tarea-4-UNAD\interfaz.py", line 865, in confirmar_reserva
+    reserva.confirmar()  # Lanza ErrorReserva si no está en estado 'pendiente'
+    ~~~~~~~~~~~~~~~~~^^
+  File "c:\Users\user\Documents\UNAD\Tercer semestre\Programacion\Tarea4\Tarea-4-UNAD\classes.py", line 856, in confirmar
+    raise ErrorReserva(
+    ...<2 lines>...
+    )
+classes.ErrorReserva: [Reserva/Estado] Solo se pueden confirmar reservas pendientes.
+
+[2026-05-12 22:48:43] [WARNING] Validación Fallida: Correo 'karolmol@gmail,com'
+[2026-05-12 22:48:43] [ERROR] GUI Registro Cliente (inesperado) → Excepción [ErrorDatosCliente] | DETALLE: Error en el campo 'correo': Formato de correo inválido.
+Traceback (most recent call last):
+  File "c:\Users\user\Documents\UNAD\Tercer semestre\Programacion\Tarea4\Tarea-4-UNAD\interfaz.py", line 292, in registrar_cliente
+    nuevo_cliente = Cliente(str(uuid.uuid4()), id_cliente, nombre,
+                            direccion, correo, telefono)
+  File "c:\Users\user\Documents\UNAD\Tercer semestre\Programacion\Tarea4\Tarea-4-UNAD\classes.py", line 152, in __init__
+    ValidadorDatos.validar_correo(correo)    # Verifica formato usuario@dominio.ext
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^
+  File "c:\Users\user\Documents\UNAD\Tercer semestre\Programacion\Tarea4\Tarea-4-UNAD\validadores.py", line 60, in validar_correo
+    raise ErrorDatosCliente("correo", f"Formato de correo inválido.")
+excepciones.ErrorDatosCliente: Error en el campo 'correo': Formato de correo inválido.
+
+[2026-05-12 22:48:48] [INFO] GUI: Cliente registrado: Cliente: Karol Molina (11446254898)
+[2026-05-12 22:48:57] [ERROR] GUI Crear Asesoría → Excepción [ValueError] | DETALLE: could not convert string to float: ''
+Traceback (most recent call last):
+  File "c:\Users\user\Documents\UNAD\Tercer semestre\Programacion\Tarea4\Tarea-4-UNAD\interfaz.py", line 621, in crear_asesoria
+    precio    = float(self.entries_asesoria["precio"].get())   # Puede lanzar ValueError
+ValueError: could not convert string to float: ''
+
+[2026-05-12 22:48:59] [ERROR] GUI Crear Equipo → Excepción [ValueError] | DETALLE: could not convert string to float: ''
+Traceback (most recent call last):
+  File "c:\Users\user\Documents\UNAD\Tercer semestre\Programacion\Tarea4\Tarea-4-UNAD\interfaz.py", line 595, in crear_equipo
+    precio = float(self.entries_equipo["precio"].get())   # Puede lanzar ValueError
+ValueError: could not convert string to float: ''
+
+[2026-05-12 22:49:40] [INFO] GUI: Equipo creado: SERVICIO: Karol Molina | Precio Base: $23,000.00 | Equipo: Karol Molina | Tiempo: 4 días | Con Seguro
+[2026-05-12 22:50:00] [INFO] GUI: Reserva creada: Reserva #1 | Karol Molina | Karol Molina | 13/05/2026 09:00 | Estado: pendiente | Duración: 2.0h
+[2026-05-12 22:50:03] [INFO] GUI: Reserva #1 confirmada.
